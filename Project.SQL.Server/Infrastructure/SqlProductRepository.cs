@@ -63,7 +63,8 @@ public class SqlProductRepository : BaseSqlRepository, IProductRepository
 
     public void UpdateProduct(Product product)
     {
-        var sql = @"UPDATE product SET first_name = @FirstName, last_name = @LastName, date_of_birth = @DateOfBirth, email = @Email  WHERE student_id = @StudentId";
-        connection.ExecuteAsync(sql, student);
+        var sql = @"UPDATE product SET name= @Name, deleted_date = @DeletedDate, updated_date = @UptadedDate, created_date = @CreatedDate, is_deleted = @IsDeleted  WHERE id = @Id";
+        using var conn = OpenConnection();
+        conn.ExecuteAsync(sql, product);
     }
 }
