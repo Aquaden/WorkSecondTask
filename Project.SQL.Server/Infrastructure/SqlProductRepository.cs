@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Project.Domain.Entities;
 using Project.Repository.Repositories.ProductRepositories;
 using Project.SQL.Server.DbContexts;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Project.SQL.Server.Infrastructure;
 
@@ -17,33 +20,50 @@ public class SqlProductRepository : BaseSqlRepository, IProductRepository
 
     public async Task AddProduct(Product entity)
     {
-        await _context.AddAsync(entity);
+        
+        var sql = @"INSERT INTO product(name,description,created_date,deleted_date,updated_date,is_deleted) 
+                   VALUES (@Name,@Descp,@Createddate,@DeletedDate,@UpdateDate,@IsDeleted)";
+        using var conn = OpenConnection();
+        await conn.ExecuteScalarAsync(sql,entity);
+
+       
     }
 
 
     public void DeleteProudct(int id)
     {
-        var prod = _context.Products.FirstOrDefault(b => b.Id == id);
-        prod.IsDeleted = true;
-        prod.Deleted_date = DateTime.Now;
+        var checkSql = "SELECT id from product WHERE id = @Id AND is_deleted=0";
+        var sql = "UPDATE product" +
+            "SET is_deleted = 1," +
+            "    deleted_date = GETDATE()" +
+            "WHERE id = @Id";
+        using var conn = OpenConnection();
+        var countId =  conn.ExecuteScalar<int>(checkSql,new { id});
+        if (countId > 0)
+        {
+            conn.ExecuteAsync(sql, new { id });
+        }
+        
     }
 
-    public IQueryable<Product> GetAllProducts()
+    public IEnumerable<Product> GetAllProducts()
     {
-        var data = _context.Products.AsNoTracking().OrderByDescending(b => b.Created_date).Where(b => b.IsDeleted == false);
+        var sql = "SELECT * FROM vw_product";
+        using var conn = OpenConnection();
+        var data =  conn.Query<Product>(sql);
         return data;
     }
 
     public async Task<Product> GetById(int id)
     {
-        var data = await _context.Products.FirstOrDefaultAsync(b => b.Id == id && b.IsDeleted == false);
-        return data;
+        var sql = "SELECT * FROM product WHERE id = @Id";
+        using var conn = OpenConnection();
+        return await conn.QueryFirstOrDefaultAsync<Product>(sql, new { id });
     }
 
     public void UpdateProduct(Product product)
     {
-        var data = _context.Products.FirstOrDefaultAsync(b => b.Id == product.Id && b.IsDeleted == false);
-        product.Updated_date = DateTime.Now;
-        _context.Products.Update(product);
+        var sql = @"UPDATE product SET first_name = @FirstName, last_name = @LastName, date_of_birth = @DateOfBirth, email = @Email  WHERE student_id = @StudentId";
+        connection.ExecuteAsync(sql, student);
     }
 }

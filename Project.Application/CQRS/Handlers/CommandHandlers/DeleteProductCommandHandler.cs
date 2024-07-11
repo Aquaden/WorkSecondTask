@@ -19,7 +19,7 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommandR
     public async Task<DeleteProductCommandResponse> Handle(DeleteProductCommandRequest request, CancellationToken cancellationToken)
     {
         _unitOfWork.ProductRepository.DeleteProudct(request.Id);
-        _unitOfWork.SaveChanegsAsync();
+      await  _unitOfWork.SaveChanegsAsync();
         return new DeleteProductCommandResponse()
         {
             IsSuccess = true,

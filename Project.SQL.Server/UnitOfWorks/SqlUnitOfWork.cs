@@ -18,8 +18,17 @@ public class SqlUnitOfWork : IUnitOfWork
     public SqlProductRepository _productRepo;
     public IProductRepository ProductRepository => _productRepo ??= new SqlProductRepository(_connectionString, _context);
 
-    public async Task SaveChanegsAsync()
+    public async Task<bool> SaveChanegsAsync()
     {
-        await _context.SaveChangesAsync();
+        //geriye success ve ya false degeri qaytarsin. Databse dusub dusmemiyi deqiq olsun// 0,1.-1
+        var rows = await _context.SaveChangesAsync();
+        if (rows > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

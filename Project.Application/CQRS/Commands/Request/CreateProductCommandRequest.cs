@@ -5,6 +5,8 @@ namespace Project.Application.CQRS.Commands.Request;
 
 public class CreateProductCommandRequest:IRequest<CreateProductCommandResponse>
 {
+
+    //cons
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime Created_date { get; set; }

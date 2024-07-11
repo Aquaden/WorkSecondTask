@@ -6,5 +6,5 @@ public interface IUnitOfWork
 {
     
     public IProductRepository ProductRepository { get; }
-    Task SaveChanegsAsync();
+    Task<bool> SaveChanegsAsync();
 }

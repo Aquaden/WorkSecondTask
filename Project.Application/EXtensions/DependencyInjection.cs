@@ -5,7 +5,7 @@ using Project.Repository.UnitOfWorks;
 using Project.SQL.Server.UnitOfWorks;
 using System.Reflection;
 
-namespace Project.Application;
+namespace Project.Application.EXtensions;
 
 public static class DependencyInjection
 {

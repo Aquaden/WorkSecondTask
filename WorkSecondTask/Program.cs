@@ -1,11 +1,11 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Project.Application;
 using Project.Application.CQRS.Handlers.CommandHandlers;
 using Project.Application.CQRS.Handlers.QueryHandlers;
 using Project.Application.Profiles;
 using Project.SQL.Server.DbContexts;
 using Project.SQL.Server;
+using Project.Application.EXtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +18,8 @@ builder.Services.AddSwaggerGen();
 
 var conf = builder.Configuration.GetConnectionString("MyConnection");
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(conf));
-builder.Services.AddApplicationServices();
 builder.Services.AddSqlServerServices(conf);
+builder.Services.AddMainExtension(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
