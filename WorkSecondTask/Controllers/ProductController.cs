@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Project.Application.CQRS.Commands.Request;
-using Project.Application.CQRS.Commands.Response;
 using Project.Application.CQRS.Queries.Request;
-using Project.Application.CQRS.Queries.Response;
 
 namespace WorkSecondTask.Controllers;
 

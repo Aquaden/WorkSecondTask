@@ -10,8 +10,10 @@ public class SqlUnitOfWork : IUnitOfWork
     private readonly string _connectionString;
     private readonly AppDbContext _context;
 
+
     public SqlUnitOfWork(AppDbContext appDbContext)
     {
+        _context = appDbContext;
   
             
     }

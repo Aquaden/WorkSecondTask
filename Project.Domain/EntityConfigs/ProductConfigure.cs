@@ -17,9 +17,9 @@ namespace Project.Domain.EntityConfigs
             builder.Property(x => x.Id).IsRequired();
             builder.Property(x => x.Description).HasMaxLength(100).IsRequired();
             builder.Property(x => x.IsDeleted).IsRequired();
-            builder.Property(x => x.Deleted_date).IsRequired();
-            builder.Property(x => x.Created_date).IsRequired();
-            builder.Property(x => x.Updated_date).IsRequired();
+            builder.Property(x => x.DeletedDate).IsRequired();
+            builder.Property(x => x.CreatedDate).IsRequired();
+            builder.Property(x => x.UpdatedDate).IsRequired();
         }
     }
 }

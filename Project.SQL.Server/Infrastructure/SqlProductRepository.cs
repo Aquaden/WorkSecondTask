@@ -20,10 +20,11 @@ public class SqlProductRepository : BaseSqlRepository, IProductRepository
 
     public async Task AddProduct(Product entity)
     {
+        using var conn = OpenConnection();
         
         var sql = @"INSERT INTO product(name,description,created_date,deleted_date,updated_date,is_deleted) 
                    VALUES (@Name,@Descp,@Createddate,@DeletedDate,@UpdateDate,@IsDeleted)";
-        using var conn = OpenConnection();
+        
         await conn.ExecuteScalarAsync(sql,entity);
 
        

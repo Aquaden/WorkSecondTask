@@ -35,8 +35,8 @@ namespace Project.Application.CQRS.Handlers.QueryHandlers
                 Name = data2.Name,
                 Description = data2.Description,
                 Created_date = DateTime.Now,
-                Updated_date = data2.Updated_date,
-                Deleted_date = data2.Deleted_date,
+                Updated_date = data2.UpdatedDate,
+                Deleted_date = data2.DeletedDate,
                 IsDeleted = data2.IsDeleted
 
             };
