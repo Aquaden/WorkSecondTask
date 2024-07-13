@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.Domain.Entities;
 using Project.Domain.EntityConfigs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Project.SQL.Server.DbContexts
 {
@@ -19,7 +14,6 @@ namespace Project.SQL.Server.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(Product).Assembly);
             modelBuilder.ApplyConfiguration(new ProductConfigure());
             base.OnModelCreating(modelBuilder);

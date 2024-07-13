@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿
+using Npgsql;
 
 namespace Project.SQL.Server.Infrastructure;
 
@@ -10,9 +11,9 @@ public abstract class BaseSqlRepository
     {
         _connectionString = connectionString;
     }
-    protected SqlConnection OpenConnection()
+    protected NpgsqlConnection OpenConnection()
     {
-        var con = new SqlConnection(_connectionString);
+        var con = new NpgsqlConnection(_connectionString);
         con.Open();
         return con;
     }

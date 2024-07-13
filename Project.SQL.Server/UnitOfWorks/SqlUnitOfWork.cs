@@ -1,4 +1,5 @@
-﻿using Project.Repository.Repositories.ProductRepositories;
+﻿using Microsoft.Extensions.Configuration;
+using Project.Repository.Repositories.ProductRepositories;
 using Project.Repository.UnitOfWorks;
 using Project.SQL.Server.DbContexts;
 using Project.SQL.Server.Infrastructure;
@@ -9,28 +10,27 @@ public class SqlUnitOfWork : IUnitOfWork
 {
     private readonly string _connectionString;
     private readonly AppDbContext _context;
+    private ProductRepository _productRepo;
 
 
-    public SqlUnitOfWork(AppDbContext appDbContext)
+    public SqlUnitOfWork(AppDbContext appDbContext, IConfiguration configuration)
     {
         _context = appDbContext;
-  
-            
+        _connectionString = configuration.GetConnectionString("MyConnection");
     }
-    public SqlProductRepository _productRepo;
-    public IProductRepository ProductRepository => _productRepo ??= new SqlProductRepository(_connectionString, _context);
+    
+    public IProductRepository ProductRepository => _productRepo ??= new ProductRepository(_connectionString, _context);
+    
+    //
+    // public IPaymentRepository PaymentRepository =>
+    //     _paymentRepository ??= new PaymentRepository(_connectionString, Context);
 
     public async Task<bool> SaveChanegsAsync()
     {
-        //geriye success ve ya false degeri qaytarsin. Databse dusub dusmemiyi deqiq olsun// 0,1.-1
         var rows = await _context.SaveChangesAsync();
         if (rows > 0)
-        {
             return true;
-        }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 }
